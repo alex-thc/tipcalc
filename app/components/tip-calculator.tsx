@@ -12,6 +12,7 @@ import { Upload, Calculator, AlertCircle, DollarSign } from "lucide-react"
 import { parseReceipt, type ReceiptData } from "../actions/parse-receipt"
 import imageCompression from "browser-image-compression"
 import { heicTo, isHeic } from "heic-to"
+import Image from 'next/image'
 
 export default function TipCalculator() {
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
@@ -115,7 +116,7 @@ export default function TipCalculator() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Smart Tip Calculator</h1>
-          <p className="text-gray-600">Upload your receipt and let AI calculate the perfect tip if you're tired of service charges</p>
+          <p className="text-gray-600">Upload your receipt and let AI calculate the perfect tip if you&apos;re tired of service charges</p>
           <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
             <span className="mr-1">✓</span> CPA Approved
           </div>
@@ -170,10 +171,13 @@ export default function TipCalculator() {
             {isPreviewExpanded && (
               <CardContent>
                 <div className="relative aspect-[3/4] w-full max-w-md mx-auto">
-                  <img
+                  <Image
                     src={receiptImageUrl}
                     alt="Uploaded receipt"
                     className="object-contain w-full h-full rounded-lg shadow-sm"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    priority
                   />
                 </div>
               </CardContent>
