@@ -18,6 +18,7 @@ export default function TipCalculator() {
   const [isLoading, setIsLoading] = useState(false)
   const [customTipPercent, setCustomTipPercent] = useState("")
   const [selectedTipPercent, setSelectedTipPercent] = useState<number | null>(null)
+  const [receiptImageUrl, setReceiptImageUrl] = useState<string | null>(null)
 
   const handleFileUpload = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -60,7 +61,15 @@ export default function TipCalculator() {
           finalFile = await imageCompression(processedFile, options);
         }
 
+        // Create URL for the processed image
+        const imageUrl = URL.createObjectURL(finalFile)
+        setReceiptImageUrl(imageUrl)
+
         formData.set("receipt", finalFile);
+      } else {
+        // For small files, just use the original
+        const imageUrl = URL.createObjectURL(file)
+        setReceiptImageUrl(imageUrl)
       }
 
       const result = await parseReceipt(formData)
@@ -139,6 +148,27 @@ export default function TipCalculator() {
               {receiptData.error} Please try uploading a clearer image of your receipt.
             </AlertDescription>
           </Alert>
+        )}
+
+        {/* Receipt Image Preview */}
+        {receiptImageUrl && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="w-5 h-5" />
+                Receipt Image
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="relative aspect-[3/4] w-full max-w-md mx-auto">
+                <img
+                  src={receiptImageUrl}
+                  alt="Uploaded receipt"
+                  className="object-contain w-full h-full rounded-lg shadow-sm"
+                />
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Receipt Analysis Results */}
