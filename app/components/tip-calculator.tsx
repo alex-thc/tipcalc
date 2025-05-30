@@ -19,10 +19,12 @@ export default function TipCalculator() {
   const [customTipPercent, setCustomTipPercent] = useState("")
   const [selectedTipPercent, setSelectedTipPercent] = useState<number | null>(null)
   const [receiptImageUrl, setReceiptImageUrl] = useState<string | null>(null)
+  const [isPreviewExpanded, setIsPreviewExpanded] = useState(false)
 
   const handleFileUpload = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsLoading(true)
+    setIsPreviewExpanded(true)  // Expand preview when starting upload
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -87,6 +89,7 @@ export default function TipCalculator() {
       setIsLoading(false)
       setSelectedTipPercent(null)
       setCustomTipPercent("")
+      setIsPreviewExpanded(false)  // Collapse preview after processing
     }
   }
 
@@ -153,21 +156,28 @@ export default function TipCalculator() {
         {/* Receipt Image Preview */}
         {receiptImageUrl && (
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="w-5 h-5" />
-                Receipt Image
+            <CardHeader className="cursor-pointer" onClick={() => setIsPreviewExpanded(!isPreviewExpanded)}>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Upload className="w-5 h-5" />
+                  Receipt Image
+                </div>
+                <span className="text-sm text-gray-500">
+                  {isPreviewExpanded ? "Click to collapse" : "Click to expand"}
+                </span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="relative aspect-[3/4] w-full max-w-md mx-auto">
-                <img
-                  src={receiptImageUrl}
-                  alt="Uploaded receipt"
-                  className="object-contain w-full h-full rounded-lg shadow-sm"
-                />
-              </div>
-            </CardContent>
+            {isPreviewExpanded && (
+              <CardContent>
+                <div className="relative aspect-[3/4] w-full max-w-md mx-auto">
+                  <img
+                    src={receiptImageUrl}
+                    alt="Uploaded receipt"
+                    className="object-contain w-full h-full rounded-lg shadow-sm"
+                  />
+                </div>
+              </CardContent>
+            )}
           </Card>
         )}
 
