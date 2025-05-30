@@ -103,7 +103,10 @@ export default function TipCalculator() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Smart Tip Calculator</h1>
-          <p className="text-gray-600">Upload your receipt and let AI calculate the perfect tip</p>
+          <p className="text-gray-600">Upload your receipt and let AI calculate the perfect tip if you're tired of service charges</p>
+          <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
+            <span className="mr-1">✓</span> CPA Approved
+          </div>
         </div>
 
         {/* Upload Section */}
