@@ -102,7 +102,7 @@ export default function TipCalculator() {
 
   const calculateTotal = (tipAmount: number) => {
     if (!receiptData || !receiptData.success) return 0
-    return receiptData.totalAmount + adjustedTipAmount
+    return receiptData.totalAmount + tipAmount
   }
 
   const baseAmount = receiptData?.success ? receiptData.preTaxAmount - receiptData.serviceFee : 0
@@ -110,7 +110,7 @@ export default function TipCalculator() {
   const currentTipPercent = selectedTipPercent || (customTipPercent ? Number.parseFloat(customTipPercent) : 0)
   const tipAmount = calculateTip(currentTipPercent)
   const adjustedTipAmount = receiptData?.success ? tipAmount - receiptData.serviceFee : tipAmount
-  const finalTotal = calculateTotal(tipAmount)
+  const finalTotal = calculateTotal(adjustedTipAmount)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
