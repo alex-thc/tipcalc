@@ -102,7 +102,7 @@ export default function TipCalculator() {
 
   const calculateTotal = (tipAmount: number) => {
     if (!receiptData || !receiptData.success) return 0
-    return receiptData.totalAmount + tipAmount
+    return receiptData.totalAmount + tipAmount - receiptData.serviceFee
   }
 
   const baseAmount = receiptData?.success ? receiptData.preTaxAmount - receiptData.serviceFee : 0
@@ -272,6 +272,10 @@ export default function TipCalculator() {
                   <div className="flex justify-between">
                     <span>Tip ({currentTipPercent}%):</span>
                     <span className="font-semibold">${tipAmount.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Minus Extra Fees:</span>
+                    <span className="font-semibold text-red-600">-${receiptData.serviceFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-lg font-bold border-t pt-2">
                     <span>Total + Tip:</span>
